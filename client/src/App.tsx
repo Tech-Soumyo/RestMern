@@ -9,7 +9,9 @@ import VerifyEmail from "./auth/VerifyEmail";
 // import Navbar from "./components/custom/Navbar";
 import HereSection from "./components/custom/HeroSection";
 import MainLayout from "./layout/MainLayout";
-// import Profile from "./components/custom/Profile";
+import Profile from "./components/custom/Profile";
+import Search from "./components/custom/SearchPage";
+import { ResturentDetails } from "./components/custom/ResturentDetails";
 
 const appRouter = createBrowserRouter([
   {
@@ -20,10 +22,18 @@ const appRouter = createBrowserRouter([
         path: "/",
         element: <HereSection />,
       },
-      // {
-      //   path: "/profile",
-      //   element: <Profile />,
-      // },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/search/:id",
+        element: <Search />,
+      },
+      {
+        path: "/restaurant/:id",
+        element: <ResturentDetails />,
+      },
     ],
   },
   {
