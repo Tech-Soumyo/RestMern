@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Menubar,
@@ -16,26 +17,24 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
 import {
+  Moon,
+  Sun,
+  ShoppingCart,
+  User,
+  SquareMenu,
+  UtensilsCrossed,
+  PackageCheck,
   HandPlatter,
   Loader2,
   Menu,
-  Moon,
-  PackageCheck,
-  ShoppingCart,
-  SquareMenu,
-  Sun,
-  User,
-  UtensilsCrossed,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
 
@@ -43,6 +42,21 @@ function Navbar() {
   const admin = true;
   const length = 2;
   const loading = false;
+
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    // Set the initial theme based on localStorage or default to light
+    const storedTheme = localStorage.getItem("theme") || "light";
+    setTheme(storedTheme);
+    document.documentElement.classList.toggle("dark", storedTheme === "dark");
+  }, []);
+
+  const handleThemeToggle = (newTheme: any) => {
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+  };
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -80,14 +94,26 @@ function Navbar() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="icon">
-                    <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                    <Sun
+                      className={`h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all ${
+                        theme === "dark" ? "dark:-rotate-90 dark:scale-0" : ""
+                      }`}
+                    />
+                    <Moon
+                      className={`absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all ${
+                        theme === "dark" ? "dark:rotate-0 dark:scale-100" : ""
+                      }`}
+                    />
                     <span className="sr-only">Toggle theme</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => {}}>Light</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => {}}>Dark</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleThemeToggle("light")}>
+                    Light
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleThemeToggle("dark")}>
+                    Dark
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -129,8 +155,8 @@ function Navbar() {
           </div>
         </div>
         <div className="md:hidden lg:hidden">
-          {/* Mobile responsive  */}
-          <MobileNavbar />
+          {/* Mobile responsive */}
+          <MobileNavbar handleThemeToggle={handleThemeToggle} theme={theme} />
         </div>
       </div>
     </div>
@@ -139,11 +165,10 @@ function Navbar() {
 
 export default Navbar;
 
-const MobileNavbar = () => {
+const MobileNavbar = ({ handleThemeToggle, theme }: any) => {
   const admin = true;
   const loading = false;
-  // const { user, logout, loading } = useUserStore();
-  // const { setTheme } = useThemeStore();
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -161,66 +186,30 @@ const MobileNavbar = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon">
-                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <Sun
+                  className={`h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all ${
+                    theme === "dark" ? "dark:-rotate-90 dark:scale-0" : ""
+                  }`}
+                />
+                <Moon
+                  className={`absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all ${
+                    theme === "dark" ? "dark:rotate-0 dark:scale-100" : ""
+                  }`}
+                />
                 <span className="sr-only">Toggle theme</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => {}}>Light</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => {}}>Dark</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleThemeToggle("light")}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleThemeToggle("dark")}>
+                Dark
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </SheetHeader>
         <Separator className="my-2" />
-        <SheetDescription className="flex-1">
-          <Link
-            to="/profile"
-            className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
-          >
-            <User />
-            <span>Profile</span>
-          </Link>
-          <Link
-            to="/order/status"
-            className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
-          >
-            <HandPlatter />
-            <span>Order</span>
-          </Link>
-          <Link
-            to="/cart"
-            className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
-          >
-            <ShoppingCart />
-            <span>Cart </span>
-          </Link>
-          {admin && (
-            <>
-              <Link
-                to="/admin/menu"
-                className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
-              >
-                <SquareMenu />
-                <span>Menu</span>
-              </Link>
-              <Link
-                to="/admin/restaurant"
-                className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
-              >
-                <UtensilsCrossed />
-                <span>Restaurant</span>
-              </Link>
-              <Link
-                to="/admin/orders"
-                className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
-              >
-                <PackageCheck />
-                <span>Restaurant Orders</span>
-              </Link>
-            </>
-          )}
-        </SheetDescription>
         <SheetFooter className="flex flex-col gap-4">
           <div className="flex flex-row items-center gap-2">
             <Avatar>
