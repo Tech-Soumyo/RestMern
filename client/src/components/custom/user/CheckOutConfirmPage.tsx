@@ -153,5 +153,3 @@ const CheckoutConfirmPage = ({
     </Dialog>
   );
 };
-
-export default CheckoutConfirmPage;
