@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 export const resturentSchema = z.object({
-  resturentName: z
+  restaurantName: z
     .string()
     .min(3, "Restaurant name must be at least 3 characters long"),
   city: z.string().min(3, "City name must be at least 3 characters long"),
   country: z.string().min(3, "Country name must be at least 3 characters long"),
-  deliveryTime: z
+  delivaryTime: z
     .number()
     .min(0, "Delivery time must be a non-negative number"),
   cuisines: z.array(z.string()),
