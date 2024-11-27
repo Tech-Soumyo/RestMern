@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { LoginInputState, userLoginSchema } from "@/schema/user.schema";
+import { useUserStore } from "@/zustandStore/useUserStore";
 import { Eye, Loader2, Mail } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [input, setInput] = useState<LoginInputState>({
@@ -12,14 +13,16 @@ function Login() {
     password: "",
   });
   const [errors, setErrors] = useState<Partial<LoginInputState>>({});
-  //  const { loading, login } = useUserStore();
+  // Zustand User Store
+  const { loading, login } = useUserStore();
+  const navigate = useNavigate();
 
   const changeEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInput({ ...input, [name]: value });
   };
 
-  const loginSubmitHandler = (e: FormEvent) => {
+  const loginSubmitHandler = async (e: FormEvent) => {
     e.preventDefault();
     const result = userLoginSchema.safeParse(input);
     if (!result.success) {
@@ -27,15 +30,16 @@ function Login() {
       setErrors(fieldErrors as Partial<LoginInputState>);
       return;
     }
-    // try {
-    //   await login(input)
-    // } catch (error) {
-    //   console.error(error, "Error during Login User")
-    // }
+    try {
+      await login(input);
+      navigate("/");
+    } catch (error) {
+      console.error(error, "Error during Login User");
+    }
     console.log(input);
   };
 
-  const loading = false;
+  // const loading = false;
   return (
     <div className="flex items-center justify-center h-screen min-h-screen">
       <form
