@@ -1,15 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useUserStore } from "@/zustandStore/useUserStore";
 import { Loader2 } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 
 function VerifyEmail() {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRef = useRef<any>([]);
-  // const { loading, verifyEmail } = useUserStore();
-  const loading = false;
-  // const navigate = useNavigate();
+  // Zustand User Store
+  const { loading, verifyEmail } = useUserStore();
+  const navigate = useNavigate();
   const handleChange = (index: number, value: string) => {
     if (/^[a-zA-Z0-9]$/.test(value) || value === "") {
       const newOtp = [...otp];
@@ -30,16 +32,16 @@ function VerifyEmail() {
       inputRef.current[index - 1].focus();
     }
   };
-  // const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const verificationCode = otp.join("");
-  //   try {
-  //     await VerifyEmail(verificationCode);
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const verificationCode: string = otp.join("").replace(/,/g, "");
+    try {
+      await verifyEmail(verificationCode);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center h-screen w-full">
@@ -50,7 +52,7 @@ function VerifyEmail() {
             Enter the 6 digit code sent to your email address
           </p>
         </div>
-        <form>
+        <form onSubmit={submitHandler}>
           <div className="flex justify-between">
             {otp.map((letter: string, idx: number) => (
               <Input
