@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { SignupInputState, userSignUpSchema } from "@/schema/user.schema";
+import { useUserStore } from "@/zustandStore/useUserStore";
 import { Eye, Loader2, Mail, PhoneOutgoing, User } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [input, setInput] = useState<SignupInputState>({
@@ -14,11 +15,15 @@ function SignUp() {
     contact: "",
   });
   const [errors, setErrors] = useState<Partial<SignupInputState>>({});
+
+  // Zustand User Store
+  const { signup, loading } = useUserStore();
+  const navigate = useNavigate();
   const changeEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInput({ ...input, [name]: value });
   };
-  const signupSubmitHandler = (e: FormEvent) => {
+  const signupSubmitHandler = async (e: FormEvent) => {
     e.preventDefault();
     const result = userSignUpSchema.safeParse(input);
     if (!result.success) {
@@ -26,8 +31,15 @@ function SignUp() {
       setErrors(fieldErrors as Partial<SignupInputState>);
       return;
     }
+    try {
+      await signup(input);
+      navigate("/verify-email");
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const loading = false;
+  // const loading = false;
+
   return (
     <div className="flex items-center justify-center h-screen min-h-screen">
       <form
@@ -42,7 +54,7 @@ function SignUp() {
             <Input
               type="text"
               name="fullName"
-              placeholder=" Enter Your Fullname"
+              placeholder=" Enter Your fullname"
               value={input.fullName}
               onChange={changeEventHandler}
               className="pl-10 focus-visible:ring-0"
