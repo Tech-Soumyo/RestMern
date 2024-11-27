@@ -10,6 +10,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MenuFormSchema, menuSchema } from "@/schema/menu.schema";
+import { MenuItem } from "@/types/restaurant.type";
+import { useMenuStore } from "@/zustandStore/menuStore";
 
 // import { useMenuStore } from "@/store/useMenuStore";
 // import { MenuItem } from "@/types/restaurantType";
@@ -27,8 +29,8 @@ const EditMenu = ({
   editOpen,
   setEditOpen,
 }: {
-  // selectedMenu: MenuItem;
-  selectedMenu: any;
+  selectedMenu: MenuItem;
+  // selectedMenu: any;
   editOpen: boolean;
   setEditOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
@@ -39,8 +41,8 @@ const EditMenu = ({
     image: undefined,
   });
   const [error, setError] = useState<Partial<MenuFormSchema>>({});
-  const loading = false;
-  //   const { loading, editMenu } = useMenuStore();
+  // const loading = false;
+  const { loading, editMenu } = useMenuStore();
 
   const changeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
@@ -65,12 +67,12 @@ const EditMenu = ({
       if (input.image) {
         formData.append("image", input.image);
       }
-      //   await editMenu(selectedMenu._id, formData);
+      await editMenu(selectedMenu._id, formData);
     } catch (error) {
       console.log(error);
     }
   };
-  // console.log(selectedMenu);
+  console.log(selectedMenu);
   useEffect(() => {
     setInput({
       name: selectedMenu?.name || "",
