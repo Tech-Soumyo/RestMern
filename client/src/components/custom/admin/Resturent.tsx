@@ -5,21 +5,29 @@ import {
   RestaurantFormSchema,
   resturentSchema,
 } from "@/schema/resturent.schema";
+import { useRestaurantStore } from "@/zustandStore/restaurantStore";
 import { Loader2 } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 const Restaurant = () => {
-  const restaurant = false;
-  const loading = false;
+  // const restaurant = false;
+  // const loading = false;
   const [input, setInput] = useState<RestaurantFormSchema>({
-    resturentName: "",
+    restaurantName: "",
     city: "",
     country: "",
-    deliveryTime: 0,
+    delivaryTime: 0,
     cuisines: [],
     imageFile: undefined,
   });
   const [errors, setErrors] = useState<Partial<RestaurantFormSchema>>({});
+  const {
+    createRestaurant,
+    updateRestaurant,
+    loading,
+    restaurant,
+    getRestaurant,
+  } = useRestaurantStore();
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
@@ -37,30 +45,52 @@ const Restaurant = () => {
     console.log("Input Data:", input);
     try {
       const formData = new FormData();
-      formData.append("resturentName", input.resturentName);
+      formData.append("restaurantName", input.restaurantName);
       formData.append("city", input.city);
       formData.append("country", input.country);
-      formData.append("cuisins", JSON.stringify(input.cuisines));
-      formData.append("dalivaryTime", input.deliveryTime.toString());
+      formData.append("cuisines", JSON.stringify(input.cuisines));
+      formData.append("delivaryTime", input.delivaryTime.toString());
 
       if (input.imageFile) {
         formData.append("imageFile", input.imageFile);
       }
-      for (const pair of formData.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
-      }
-      console.log(formData);
-      // if (restaurant) {
-      //   // update
-      //   await updateRestaurant(formData);
-      // } else {
-      //   // create
-      //   await createRestaurant(formData);
+      // for (const pair of formData.entries()) {
+      //   console.log(`${pair[0]}: ${pair[1]}`);
       // }
+      // console.log(formData);
+      // console.log(input.cuisines);
+      if (restaurant) {
+        // update
+        await updateRestaurant(formData);
+      } else {
+        // create
+        await createRestaurant(formData);
+      }
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const fetchRestaurant = async () => {
+      await getRestaurant();
+      if (restaurant) {
+        setInput({
+          restaurantName: restaurant.restaurantName || "",
+          city: restaurant.city || "",
+          country: restaurant.country || "",
+          delivaryTime: restaurant.delivaryTime || 0,
+          cuisines: restaurant.cuisines
+            ? restaurant.cuisines.map((cuisine: string) => cuisine)
+            : [],
+          imageFile: undefined,
+        });
+      }
+    };
+    fetchRestaurant();
+    console.log(restaurant);
+  }, []);
+
   return (
     <div className="max-w-6xl mx-auto my-10">
       <div>
@@ -73,14 +103,14 @@ const Restaurant = () => {
                 <Label>Restaurant Name</Label>
                 <Input
                   type="text"
-                  name="resturentName"
-                  value={input.resturentName}
+                  name="restaurantName"
+                  value={input.restaurantName}
                   onChange={changeHandler}
                   placeholder="Enter your restaurant name"
                 />
                 {errors && (
                   <span className="text-xs text-red-600 font-medium">
-                    {errors.resturentName}
+                    {errors.restaurantName}
                   </span>
                 )}
               </div>
@@ -118,14 +148,14 @@ const Restaurant = () => {
                 <Label>Delivery Time</Label>
                 <Input
                   type="number"
-                  name="deliveryTime"
-                  value={input.deliveryTime}
+                  name="delivaryTime"
+                  value={input.delivaryTime}
                   onChange={changeHandler}
                   placeholder="Enter your delivery time"
                 />
                 {errors && (
                   <span className="text-xs text-red-600 font-medium">
-                    {errors.deliveryTime}
+                    {errors.delivaryTime}
                   </span>
                 )}
               </div>
@@ -136,6 +166,7 @@ const Restaurant = () => {
                   name="cuisines"
                   value={input.cuisines}
                   onChange={(e) =>
+                    // TODO: Ask Chatgpt
                     setInput({ ...input, cuisines: e.target.value.split(",") })
                   }
                   placeholder="e.g. Momos, Biryani"
