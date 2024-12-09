@@ -26,6 +26,16 @@ export const useMenuStore = create<MenuState>()(
             set({ loading: false, menu: response.data.menu });
           }
           // update restaurant
+          // TODO: Read
+          // using useRestaurantStore.getState() , we can access any thing of useRestaurantStore
+          //  const updatedMenus =
+          //    useRestaurantStore.getState().restaurant?.menus || [];
+          //  useRestaurantStore.setState({
+          //    restaurant: {
+          //      ...useRestaurantStore.getState().restaurant,
+          //      menus: [...updatedMenus, response.data.menu],
+          //    },
+          //  });
           useRestaurantStore.getState().addMenuToRestaurant(response.data.menu);
         } catch (error: any) {
           const errorMessage =
