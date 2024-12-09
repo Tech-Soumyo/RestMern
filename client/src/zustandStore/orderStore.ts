@@ -3,7 +3,7 @@ import axios from "axios";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-const API_END_POINT = "http://localhost:3000/api/v1/order";
+const API_END_POINT = "https://restmern.onrender.com/api/v1/order";
 axios.defaults.withCredentials = true;
 
 export const useOrderStore = create<OrderState>()(
@@ -17,7 +17,7 @@ export const useOrderStore = create<OrderState>()(
         try {
           set({ loading: true });
           const response = await axios.post(
-            `http://localhost:3000/api/v1/order/checkout/create-checkout-session`,
+            `https://restmern.onrender.com/api/v1/order/checkout/create-checkout-session`,
             checkoutSession,
             {
               headers: {
