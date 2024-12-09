@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { toast } from "sonner";
 import { LoginInputState, SignupInputState } from "@/schema/user.schema";
-import { User, UserState } from "@/types/user.type";
+import { UserState } from "@/types/user.type";
 
 const API_END_POINT = "http://localhost:3000/api/v1/user";
 axios.defaults.withCredentials = true;
@@ -106,7 +106,7 @@ export const useUserStore = create<UserState>()(
 
       logout: async () => {
         try {
-          console.log("logout");
+          // console.log("logout");
           set({ loading: true });
           const response = await axios.post(`${API_END_POINT}/logout`);
           if (response.data.success) {
