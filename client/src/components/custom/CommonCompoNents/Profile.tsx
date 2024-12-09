@@ -7,22 +7,23 @@ import {
   Plus,
 } from "lucide-react";
 
-import { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
 import { Button } from "../../ui/button";
+import { useUserStore } from "@/zustandStore/useUserStore";
 
 const Profile = () => {
-  // const { user, updateProfile } = useUserStore();
+  const { user, updateProfile } = useUserStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [profileData, setProfileData] = useState({
-    fullName: "",
-    email: "",
-    address: "",
-    city: "",
-    country: "",
-    profilePicture: "",
+    fullName: user?.fullName || "",
+    email: user?.email || "",
+    address: user?.address || "",
+    city: user?.city || "",
+    country: user?.country || "",
+    profilePicture: user?.profilePicture || "",
   });
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [selectedProfilePicture, setSelectedProfilePicture] = useState<string>(
@@ -50,19 +51,19 @@ const Profile = () => {
     setProfileData({ ...profileData, [name]: value });
   };
 
-  // const updateProfileHandler = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   try {
-  //     setIsLoading(true);
-  //     await updateProfile(profileData);
-  //     setIsLoading(false);
-  //   } catch (error) {
-  //     setIsLoading(false);
-  //   }
-  // };
+  const updateProfileHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      await updateProfile(profileData);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <form onSubmit={() => {}} className="max-w-7xl mx-auto my-5">
+    <form onSubmit={updateProfileHandler} className="max-w-7xl mx-auto my-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Avatar className="relative md:w-28 md:h-28 w-20 h-20">
