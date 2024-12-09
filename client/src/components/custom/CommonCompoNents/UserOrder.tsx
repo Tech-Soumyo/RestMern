@@ -2,13 +2,9 @@ import { IndianRupee } from "lucide-react";
 import { Separator } from "../../ui/separator";
 import { Link } from "react-router-dom";
 import { Button } from "../../ui/button";
-import HeroImage from "@/assets/hero_pizza.png";
 import { useOrderStore } from "@/zustandStore/orderStore";
 import { useEffect } from "react";
 import { CartItem } from "@/types/cart.type";
-// import { useOrderStore } from "@/store/useOrderStore";
-// import { useEffect } from "react";
-// import { CartItem } from "@/types/cartType";
 // interface CartItem {
 //   name: string;
 //   price: number;
