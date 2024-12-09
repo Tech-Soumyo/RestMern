@@ -89,7 +89,7 @@ const appRouter = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/search/:id",
+        path: "/search/:text",
         element: <Search />,
       },
       {
