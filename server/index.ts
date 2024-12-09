@@ -7,7 +7,7 @@ import cors from "cors";
 import userRoute from "./routes/user.routes";
 import restaurantRoute from "./routes/resturent.routes";
 import menuRoute from "./routes/menu.routes";
-// import orderRoute from "./routes/order.routes";
+import orderRoute from "./routes/order.routes";
 import path from "path";
 
 dotenv.config();
@@ -15,6 +15,7 @@ dotenv.config();
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+console.log(PORT);
 
 const DIRNAME = path.resolve();
 
@@ -28,12 +29,13 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-
+//localhost:3000/api/v1/order/checkout/create-checkout-session
 // api
-app.use("/api/v1/user", userRoute);
+http: app.use("/api/v1/user", userRoute);
 app.use("/api/v1/restaurant", restaurantRoute);
 app.use("/api/v1/menu", menuRoute);
-// app.use("/api/v1/order", orderRoute);
+// app.use(express.json());
+app.use("/api/v1/order", express.json(), orderRoute);
 
 app.use(express.static(path.join(DIRNAME, "/client/dist")));
 app.use("*", (_, res) => {
