@@ -42,7 +42,7 @@ const Restaurant = () => {
       setErrors(fieldErrors as Partial<RestaurantFormSchema>);
       return;
     }
-    console.log("Input Data:", input);
+    // console.log("Input Data:", input);
     try {
       const formData = new FormData();
       formData.append("restaurantName", input.restaurantName);
@@ -88,7 +88,7 @@ const Restaurant = () => {
       }
     };
     fetchRestaurant();
-    console.log(restaurant);
+    // console.log(restaurant);
   }, []);
 
   return (
