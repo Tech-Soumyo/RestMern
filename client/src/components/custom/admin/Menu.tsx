@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { MenuFormSchema, menuSchema } from "@/schema/menu.schema";
 import { Loader2, Plus } from "lucide-react";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import EditMenu from "./EditMenu";
 import { useMenuStore } from "@/zustandStore/menuStore";
 import { useRestaurantStore } from "@/zustandStore/restaurantStore";
@@ -31,7 +31,7 @@ const Menu = () => {
   const [error, setError] = useState<Partial<MenuFormSchema>>({});
   const [selectedMenu, setSelectedMenu] = useState<any>();
   const { loading, createMenu } = useMenuStore();
-  const { restaurant } = useRestaurantStore();
+  const { getRestaurant, restaurant } = useRestaurantStore();
   // const loading = false;
   // const menu = [1, 2, 3];
   // const menu = [
@@ -68,7 +68,7 @@ const Menu = () => {
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(input);
+    // console.log(input);
     const result = menuSchema.safeParse(input);
     if (!result.success) {
       const fieldErrors = result.error.formErrors.fieldErrors;
@@ -85,10 +85,16 @@ const Menu = () => {
         formData.append("image", input.image);
       }
       await createMenu(formData);
-      console.log(formData);
+      // console.log(formData);
     } catch (error) {
       console.log(error);
     }
+
+    useEffect(() => {
+      if (!restaurant) {
+        getRestaurant(); // Fetch restaurant data to populate menus
+      }
+    }, [restaurant, getRestaurant]);
   };
 
   return (
@@ -191,6 +197,16 @@ const Menu = () => {
           </DialogContent>
         </Dialog>
       </div>
+      {/* <button
+        onClick={async () => {
+          // console.log(restaurant?.menus);
+          await getRestaurant();
+          console.log("Restaurant Data:", restaurant);
+          console.log("Menu Data:", restaurant?.menus);
+        }}
+      >
+        Restaurant
+      </button> */}
       {restaurant?.menus.map((menu: any, idx: number) => (
         <div key={idx} className="mt-6 space-y-4">
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4 md:p-4 p-2 shadow-md rounded-lg border">
