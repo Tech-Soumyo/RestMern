@@ -1,5 +1,5 @@
 // recoil/hooks/useRestaurantActions.ts
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import axios from "axios";
 import { toast } from "sonner";
 import {
@@ -17,16 +17,12 @@ axios.defaults.withCredentials = true;
 
 export function useRestaurantActions() {
   const setLoading = useSetRecoilState(loadingState);
-  const [restaurant, setRestaurant] = useRecoilState(restaurantState);
-  const [searchedRestaurant, setSearchedRestaurant] = useRecoilState(
-    searchedRestaurantState
-  );
+  const setRestaurant = useSetRecoilState(restaurantState);
+
+  const setSearchedRestaurant = useSetRecoilState(searchedRestaurantState);
   const setAppliedFilter = useSetRecoilState(appliedFilterState);
-  const [singleRestaurant, setSingleRestaurant] = useRecoilState(
-    singleRestaurantState
-  );
-  const [restaurantOrders, setRestaurantOrders] =
-    useRecoilState(restaurantOrderState);
+  const setSingleRestaurant = useSetRecoilState(singleRestaurantState);
+  const setRestaurantOrders = useSetRecoilState(restaurantOrderState);
 
   const createRestaurant = async (formData: FormData) => {
     setLoading(true);
