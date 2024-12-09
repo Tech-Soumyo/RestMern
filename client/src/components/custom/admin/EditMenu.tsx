@@ -72,7 +72,7 @@ const EditMenu = ({
       console.log(error);
     }
   };
-  console.log(selectedMenu);
+  // console.log(selectedMenu);
   useEffect(() => {
     setInput({
       name: selectedMenu?.name || "",
