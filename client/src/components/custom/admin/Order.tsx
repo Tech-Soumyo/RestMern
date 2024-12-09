@@ -61,12 +61,19 @@ const Orders = () => {
           <div className="flex flex-col md:flex-row justify-between items-start sm:items-center bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
             <div className="flex-1 mb-6 sm:mb-0">
               <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-                {order.deliveryDetails.name}
+                {order.delivaryDetails.name}
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-2">
                 <span className="font-semibold">Address: </span>
-                {order.deliveryDetails.address}
+                {order.delivaryDetails.address}
               </p>
+              {/* <button
+                onClick={() => {
+                  console.log(order.totalAmount);
+                }}
+              >
+                Order
+              </button> */}
               <p className="text-gray-600 dark:text-gray-400 mt-2">
                 <span className="font-semibold">Total Amount: </span>
                 {order.totalAmount / 100}
