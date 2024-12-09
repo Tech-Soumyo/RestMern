@@ -76,7 +76,7 @@ export const useRestaurantStore = create<RestaurantState>()(
           const params = new URLSearchParams();
           params.set("searchQuery", searchQuery);
           params.set("selectedCuisines", selectedCuisines.join(","));
-
+          // await new Promise((resolve) => setTimeout(resolve, 2000));
           const response = await axios.get(
             `${API_END_POINT}/search/${searchText}?${params.toString()}`
           );
@@ -87,11 +87,12 @@ export const useRestaurantStore = create<RestaurantState>()(
           set({ loading: false });
         }
       },
-      addMenuToRestaurant: async (menu: MenuItem) => {
+      addMenuToRestaurant: (menu) => {
         set((state: any) => ({
-          restaurant: state.restaruant
-            ? { ...state.restaureant, menus: [...state.restaurant.menus, menu] }
-            : null,
+          restaurant: {
+            ...state.restaurant,
+            menus: [...state.restaurant.menus, menu], // Append the new menu
+          },
         }));
       },
       updateMenuToRestaurant: (updatedMenu: MenuItem) => {
