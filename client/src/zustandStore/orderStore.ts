@@ -17,7 +17,7 @@ export const useOrderStore = create<OrderState>()(
         try {
           set({ loading: true });
           const response = await axios.post(
-            `${API_END_POINT}/checkout/create-checkout-session`,
+            `http://localhost:3000/api/v1/order/checkout/create-checkout-session`,
             checkoutSession,
             {
               headers: {
