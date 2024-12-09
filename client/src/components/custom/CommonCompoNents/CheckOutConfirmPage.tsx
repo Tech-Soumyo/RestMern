@@ -1,4 +1,10 @@
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import {
   Dialog,
   DialogContent,
@@ -42,7 +48,12 @@ export const CheckoutConfirmPage = ({
   //   country: "",
   // });
   const { cart } = useCartStore();
-  const { restaurant } = useRestaurantStore();
+  const { restaurant, getRestaurant } = useRestaurantStore();
+  // It is most needed thing whenever restaurant information is needed *************************
+  useEffect(() => {
+    getRestaurant();
+  }, [getRestaurant]);
+  // console.log("restaurant", restaurant);
   const { createCheckoutSession, loading } = useOrderStore();
   // const loading = false;
   const changeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +62,6 @@ export const CheckoutConfirmPage = ({
   };
   const checkoutHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // api implementation start from here
     try {
       const checkoutData: CheckoutSessionRequest = {
         cartItems: cart.map((cartItem) => ({
@@ -61,9 +71,10 @@ export const CheckoutConfirmPage = ({
           price: cartItem.price.toString(),
           quantity: cartItem.quantity.toString(),
         })),
-        deliveryDetails: input,
+        delivaryDetails: input,
         restaurantId: restaurant?._id as string,
       };
+      // console.log(restaurant?._id);
       await createCheckoutSession(checkoutData);
     } catch (error) {
       console.log(error);
