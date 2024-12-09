@@ -18,10 +18,10 @@
     "stripe": "^17.3.1"
   },
   "scripts": {
-    "dev": "nodemon ts-node server/index.ts",
+    "dev": "nodemon ts-node -tsc server/index.ts",
     "stripe": "stripe listen --forward-to localhost:3000/api/v1/order/webhook",
     "build": "npm i && npm i --prefix client && npm run build --prefix client && npm build--output public",
-    "start": "npx nodemon ts-node server/index.ts"
+    "start": "npx nodemon ts-node -tsc server/index.ts"
   },
   "keywords": [],
   "author": "",
