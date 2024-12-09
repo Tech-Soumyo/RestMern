@@ -47,7 +47,7 @@ export const useCartStore = create<CartState>()(
       decrementQuantity: (id: string) => {
         set((state) => ({
           cart: state.cart.map((item) =>
-            item._id === id && item.quantity > 1
+            item._id === id && item.quantity > 0
               ? { ...item, quantity: item.quantity - 1 }
               : item
           ),
