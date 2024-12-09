@@ -6,7 +6,7 @@ export type CheckoutSessionRequest = {
     price: string;
     quantity: string;
   }[];
-  deliveryDetails: {
+  delivaryDetails: {
     name: string;
     email: string;
     contact: string;
