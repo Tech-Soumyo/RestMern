@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-const API_END_POINT = "http://localhost:3000/api/v1/restaurant";
+const API_END_POINT = "https://restmern.onrender.com/api/v1/restaurant";
 // Ask ChatGPT about This
 axios.defaults.withCredentials = true;
 
