@@ -1,16 +1,16 @@
 // import { MenuItem } from "@/types/restaurantType";
 
 // import { useCartStore } from "@/store/useCartStore";
-import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "../../ui/card";
 import { Button } from "../../ui/button";
-import HeroImage from "@/assets/hero_pizza.png";
+// import HeroImage from "@/assets/hero_pizza.png";
 import { MenuItem } from "@/types/restaurant.type";
 import { useCartStore } from "@/zustandStore/useCartStore";
+import { toast } from "sonner";
 // const menuPrice = "539 INR";
 const AvailableMenu = ({ menus }: { menus: MenuItem[] }) => {
   const { addToCart } = useCartStore();
-  const navigate = useNavigate();
+
   // const menuName = "Tandoori Pizza";
   // const menuDescription ="With SSR, content is displayed quickly, which is especially beneficial for users on slow connections";
   return (
@@ -21,7 +21,7 @@ const AvailableMenu = ({ menus }: { menus: MenuItem[] }) => {
       <div className="grid md:grid-cols-3 space-y-4 md:space-y-0">
         {menus.map((menu: MenuItem) => (
           <Card className="max-w-xs mx-auto shadow-lg rounded-lg overflow-hidden">
-            <img src={HeroImage} alt="" className="w-full h-40 object-cover" />
+            <img src={menu.image} alt="" className="w-full h-40 object-cover" />
             <CardContent className="p-4">
               <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
                 {menu.name}
@@ -35,7 +35,7 @@ const AvailableMenu = ({ menus }: { menus: MenuItem[] }) => {
               <Button
                 onClick={() => {
                   addToCart(menu);
-                  navigate("/cart");
+                  toast("Succesfully, Item is added to cart");
                 }}
                 className="w-full bg-orange hover:bg-hoverOrange"
               >
