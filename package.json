@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "nodemon ts-node server/index.ts",
     "stripe": "stripe listen --forward-to localhost:3000/api/v1/order/webhook",
-    "build": "npm i && npm i --prefix client && npm run build --prefix client --output public",
+    "build": "npm i && npm i --prefix client && npm run build --prefix client && npm build--output public",
     "start": "npx nodemon ts-node server/index.ts"
   },
   "keywords": [],
