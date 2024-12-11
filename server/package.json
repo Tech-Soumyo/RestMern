@@ -19,7 +19,7 @@
   },
   "scripts": {
     "dev": "nodemon index.ts",
-    "build": "npm install",
+    "build": "tsc",
     "start": "nodemon index.ts"
   },
   "keywords": [],
