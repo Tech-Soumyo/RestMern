@@ -18,10 +18,10 @@
     "stripe": "^17.3.1"
   },
   "scripts": {
-    "dev": "nodemon server/index.ts",
+    "dev": "node --max-old-space-size=4096 ./node_modules/.bin/nodemon server/index.ts",
     "stripe": "stripe listen --forward-to localhost:3000/api/v1/order/webhook",
     "build": "npm i && npm i --prefix client && npm run build --prefix client",
-    "start": "nodemon server/index.ts"
+    "start": "node --max-old-space-size=4096 ./node_modules/.bin/nodemon server/index.ts"
   },
   "keywords": [],
   "author": "",
