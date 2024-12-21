@@ -5,7 +5,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { useRestaurantStore } from "./restaurantStore";
 import { MenuState } from "@/types/menu.type";
 
-const API_END_POINT = "https://restmern.onrender.com/api/v1/menu";
+const API_END_POINT = "http://localhost:3001/api/v1/menu";
 axios.defaults.withCredentials = true;
 
 export const useMenuStore = create<MenuState>()(

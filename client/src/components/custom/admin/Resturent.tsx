@@ -16,7 +16,7 @@ const Restaurant = () => {
     restaurantName: "",
     city: "",
     country: "",
-    delivaryTime: 0,
+    deliveryTime: 0,
     cuisines: [],
     imageFile: undefined,
   });
@@ -49,7 +49,7 @@ const Restaurant = () => {
       formData.append("city", input.city);
       formData.append("country", input.country);
       formData.append("cuisines", JSON.stringify(input.cuisines));
-      formData.append("delivaryTime", input.delivaryTime.toString());
+      formData.append("delivaryTime", input.deliveryTime.toString());
 
       if (input.imageFile) {
         formData.append("imageFile", input.imageFile);
@@ -79,7 +79,7 @@ const Restaurant = () => {
           restaurantName: restaurant.restaurantName || "",
           city: restaurant.city || "",
           country: restaurant.country || "",
-          delivaryTime: restaurant.delivaryTime || 0,
+          deliveryTime: restaurant.delivaryTime || 0,
           cuisines: restaurant.cuisines
             ? restaurant.cuisines.map((cuisine: string) => cuisine)
             : [],
@@ -149,13 +149,13 @@ const Restaurant = () => {
                 <Input
                   type="number"
                   name="delivaryTime"
-                  value={input.delivaryTime}
+                  value={input.deliveryTime}
                   onChange={changeHandler}
                   placeholder="Enter your delivery time"
                 />
                 {errors && (
                   <span className="text-xs text-red-600 font-medium">
-                    {errors.delivaryTime}
+                    {errors.deliveryTime}
                   </span>
                 )}
               </div>

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { LoginInputState, SignupInputState } from "@/schema/user.schema";
 import { UserState } from "@/types/user.type";
 
-const API_END_POINT = "https://restmern.onrender.com/api/v1/user";
+const API_END_POINT = "http://localhost:3001/api/v1/user";
 axios.defaults.withCredentials = true;
 
 export const useUserStore = create<UserState>()(

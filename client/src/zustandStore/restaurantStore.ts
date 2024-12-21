@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-const API_END_POINT = "https://restmern.onrender.com/api/v1/restaurant";
+const API_END_POINT = "http://localhost:3001/api/v1/restaurant";
 // Ask ChatGPT about This
 axios.defaults.withCredentials = true;
 
@@ -53,11 +53,15 @@ export const useRestaurantStore = create<RestaurantState>()(
       updateRestaurant: async (formData: FormData) => {
         try {
           set({ loading: true });
-          const response = await axios.put(`${API_END_POINT}/`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
+          const response = await axios.put(
+            `http://localhost:3001/api/v1/restaurant`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
           if (response.data.success) {
             toast.success(response.data.message);
             set({ loading: false });
